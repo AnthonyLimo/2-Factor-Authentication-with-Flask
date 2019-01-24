@@ -17,9 +17,9 @@ sms = africastalking.SMS
 
 def send_verification_code():
 	random_number = random.randint(1,10001)
-	config_code = "VC-" + random_number
+	config_code =  random_number
 
-	message = "Your login verification code is: " + config_code
+	message = "Your login verification code is: " + str(config_code)
 
 	#check if this function executed properly
 
@@ -54,7 +54,7 @@ def verify():
 	if request.method == "GET":
 		send_verification_code()
 	elif request.method == "POST":
-		if  config_code == request.form["verificationCode"]:
+		if  config_code == request.form["code"]:
 			return redirect(render_template(url_for("home")))
 		else: 
 			return redirect(render_template(url_for("index")))
