@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="container">
+    <div class="alert alert-primary">
+        Your username is <span class="alert-link">username</span> and your password is <span class="alert-link">password</span>
+    </div>
+    <form method="POST">
+        <div class="form-group">
+            <label for="formUsername">Username</label>
+            <input name="username" type="text" class="form-control" id="username" placeholder="Enter Username">
+        </div>
+        <div class="form-group">
+            <label for="formPassword">Password</label>
+            <input name="password" type="text" class="form-control" id="password" placeholder="Enter Password">
+        </div>
+        <button id="loginButton" type="submit" class="btn btn-primary">Login</button>
+    </form>
+</div>
+{% endblock %} 

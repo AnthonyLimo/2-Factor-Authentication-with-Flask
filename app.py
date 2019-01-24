@@ -48,7 +48,7 @@ def index():
 	return render_template("index.html") 
 
 
-#verification path, if the code is accepted, then we can 
+#verification path, if the code is accepted, then we can verify its the same one generated
 @app.route("/verify", methods=["POST","GET"])
 def verify():
 	if request.method == "GET":

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="container">
+    <div class="alert alert-primary">
+        Check the SMS sent to your simulator and enter the code
+    </div>
+    <br class="my-4">
+    <form method="POST">
+        <div class="form-group">
+            <label for="formVerificationCode">Verification Code</label>
+            <input name="code" type="text" class="form-control" id="username" placeholder="Enter Username">
+        </div>
+        <button id="verifyButton" type="submit" class="btn btn-primary">Sumbit</button>
+    </form>
+</div>
+{% endblock %} 
