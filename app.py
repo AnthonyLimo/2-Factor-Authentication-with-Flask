@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
 username = "sandbox"
-api_key = ""
+api_key = "c73616e0eb2e292cf0590ee111097f726dc71ca4ae2d20bd38d79a49564d5d4b"
 user_phone_number = "+254727545805"
 config_code = ""
 
@@ -17,17 +17,23 @@ sms = africastalking.SMS
 
 def send_verification_code():
 	random_number = random.randint(1,10001)
-	config_code =  random_number
+	config_code = random_number
 
 	message = "Your login verification code is: " + str(config_code)
 
 	#check if this function executed properly
 
-	sms.send(message, [user_phone_number])
+	def on_finish(error, response):
+		if error is not None:
+			raise error
 
-	return render_template(url_for("home"))
+		print(response)
 
-#add th enew user to the session object
+	sms.send(message, [user_phone_number], callback=on_finish)
+
+	return render_template("home.html")
+
+#add the new user to the session object
 @app.before_request
 def before_request():
 	g.user = None
@@ -42,7 +48,7 @@ def index():
 	session.pop("user", None)
 	if request.method == "POST":
 		if request.form["password"] == "password":
-			session.user["user"] = request.form["username"]
+			session["user"] = request.form["username"]
 			return redirect(url_for("verify"))
 
 	return render_template("index.html") 
@@ -54,23 +60,23 @@ def verify():
 	if request.method == "GET":
 		send_verification_code()
 	elif request.method == "POST":
-		if  config_code == request.form["code"]:
-			return redirect(render_template(url_for("home")))
+		if config_code == request.form["code"]:
+			print(config_code)
+			return render_template("home.html")
 		else: 
-			return redirect(render_template(url_for("index")))
-
+			return render_template("index.html")
+	
 	return render_template("verification.html")
 
 
 
 @app.route("/home", methods=["GET","POST"])
 def home():
-	if g.user:
-		return render_template("home.html")
-	else:
-		return render_template(url_for('index'))
-
-
+	if request.method == "GET":
+		if g.user:
+			return render_template("home.html")
+		else:
+			return render_template("index.html")
 
 
 
