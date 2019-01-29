@@ -32,8 +32,6 @@ def send_verification_code():
 
 	sms.send(message, [user_phone_number], callback=on_finish)
 
-	return config_code
-
 
 #add the new user to the session object
 @app.before_request
@@ -63,11 +61,11 @@ def verify():
 		send_verification_code()
 	elif request.method == "POST":
 		code = request.form["code"]
-		if code is config_code:
+		if code == config_code:
 			print(config_code)
-			return render_template("home.html")
+			return redirect(url_for("home"))
 		else: 
-			return render_template("index.html")
+			return redirect(url_for("index"))
 	
 	return render_template("verification.html")
 
