@@ -9,6 +9,7 @@ app.secret_key = os.urandom(24)
 username = "sandbox"
 api_key = "c73616e0eb2e292cf0590ee111097f726dc71ca4ae2d20bd38d79a49564d5d4b"
 user_phone_number = "+254727545805"
+global config_code
 config_code = ""
 
 africastalking.initialize(username, api_key)
@@ -31,7 +32,8 @@ def send_verification_code():
 
 	sms.send(message, [user_phone_number], callback=on_finish)
 
-	return render_template("home.html")
+	return config_code
+
 
 #add the new user to the session object
 @app.before_request
@@ -60,7 +62,8 @@ def verify():
 	if request.method == "GET":
 		send_verification_code()
 	elif request.method == "POST":
-		if config_code == request.form["code"]:
+		code = request.form["code"]
+		if code is config_code:
 			print(config_code)
 			return render_template("home.html")
 		else: 
