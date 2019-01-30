@@ -10,7 +10,7 @@ username = "sandbox"
 api_key = "c73616e0eb2e292cf0590ee111097f726dc71ca4ae2d20bd38d79a49564d5d4b"
 user_phone_number = "+254727545805"
 global config_code
-config_code = ""
+config_code = None
 
 africastalking.initialize(username, api_key)
 
@@ -61,7 +61,9 @@ def verify():
 		send_verification_code()
 	elif request.method == "POST":
 		code = request.form["code"]
-		if code == config_code:
+		code_string = str(code)
+		config_code_string = str(config_code)
+		if code_string == config_code_string:
 			print(config_code)
 			return redirect(url_for("home"))
 		else: 
