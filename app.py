@@ -66,6 +66,8 @@ def verify():
 			return redirect(url_for("home"))
 		else: 
 			return redirect(url_for("index"))
+	else:
+		redirect(url_for("index"))
 	
 	return render_template("verification.html")
 
